@@ -1,4 +1,4 @@
-name: CI automation
+name: CICD automation
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
     
 jobs:
   compile:
-    runs-on: ubuntu-latest
+    runs-on: your-self-hosted
 
     steps:
     - uses: actions/checkout@v4
@@ -17,7 +17,9 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn package --file pom.xml
+      run: |
+        ls
+        mvn package --file pom.xml
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
