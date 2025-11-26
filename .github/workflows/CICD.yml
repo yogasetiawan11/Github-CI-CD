@@ -57,6 +57,9 @@ jobs:
         sudo apt-get update -y
         sudo apt-get install trivy -y
 
+    - name: Fix directory permissions for cleanup
+      run: sudo chown -R $USER:$USER reports.json
+
     - name: Trivy-FS-scan
       run: trivy fs --format table -o fs.report.json .
 
