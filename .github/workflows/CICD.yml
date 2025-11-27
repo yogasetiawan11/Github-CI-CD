@@ -34,8 +34,6 @@ jobs:
           args: >
             --failOnCVSS 7
             --enableRetired
-      - name: Fix ownership of report files
-        run: sudo chown -R $USER:$USER .
 
   security-scan:
     runs-on: self-hosted
