@@ -5,8 +5,14 @@ on:
     branches: [ "main" ]
 
 jobs:
+  clean-up:
+    runs-on: self-hosted
+    - name: clean up machine 
+      run: sudo rm -rf /home/yogaw/actions-runner/_work/Project-Document/
+      
   compile:
     runs-on: self-hosted
+    needs: clean-up
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
