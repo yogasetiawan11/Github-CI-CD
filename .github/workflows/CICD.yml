@@ -37,10 +37,13 @@ jobs:
           project: 'Project-Document'
           path: '.'
           format: 'HTML'
-          out: 'reports.json' # this is the default, no need to specify unless you wish to override it
+          out: 'dependency-check-report' # this is the default, no need to specify unless you wish to override it
           args: >
             --failOnCVSS 7
             --enableRetired
+      - name: Fix ownership of report files
+        run: sudo chown -R $USER:$USER dependency-check-report
+
 
   security-scan:
     runs-on: self-hosted
@@ -56,9 +59,6 @@ jobs:
         echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
         sudo apt-get update -y
         sudo apt-get install trivy -y
-
-    - name: Fix directory permissions for cleanup
-      run: sudo chown -R $USER:$USER reports.json
 
     - name: Trivy-FS-scan
       run: trivy fs --format table -o fs.report.json .
@@ -93,6 +93,9 @@ jobs:
     needs: Test
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Full history needed for accurate diff analysis
+
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
