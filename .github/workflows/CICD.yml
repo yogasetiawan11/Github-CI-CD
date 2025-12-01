@@ -99,7 +99,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-
+          SONAR_PROJECT_KEY: Bank-app
   docker:
     runs-on: self-hosted
     needs: sonar_scan
