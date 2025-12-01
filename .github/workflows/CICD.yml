@@ -85,8 +85,9 @@ jobs:
       - name: Build for Sonar # (must happen after checkout, before scan)
         run: mvn package
 
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v4 
+      - name: Analyze with SonarCloud
+        uses: SonarSource/sonarqube-scan-action@v4
+        run: mvn -B sonar:sonar
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }} 
