@@ -93,12 +93,10 @@ jobs:
 
       - name: SonarQube Quality Gate check
         uses: sonarsource/sonarqube-quality-gate-action@v1 
-        with:
-          pollingTimeoutSec: 600
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-          SONAR_PROJECT_KEY: Bank-app
+          SONAR_PROJECT_KEY: bank-app
   docker:
     runs-on: self-hosted
     needs: sonar_scan
