@@ -68,7 +68,7 @@ jobs:
       - name: Run tests
         run: mvn test
 
-  sonar_scan:
+  build_project_sonar_scan:
     runs-on: self-hosted
     needs: Test-app
     steps:
@@ -82,10 +82,18 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      - name: Build for Sonar # (must happen after checkout, before scan)
+      - name: Build for Sonar 
         run: mvn package
+        # By default the jar will be created in the target/ directory and it won't be accessible in the next job unless we upload it as an artifact.
 
-      - name: Analyze with SonarCloud
+        # Upload the jar as an artifact
+      - name: upload jar artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-jar
+          path: target/*.jar
+
+      - name: Analyze with SonarQube
         uses: SonarSource/sonarqube-scan-action@v4
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -97,9 +105,10 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
           SONAR_PROJECT_KEY: bank-app
+ 
   docker_build_push:
     runs-on: self-hosted
-    needs: sonar_scan
+    needs: build_project_sonar_scanar_scan
     steps:
       - uses: actions/checkout@v4
       - name: Download jar artifact
@@ -126,6 +135,7 @@ jobs:
           push: true
           tags: yogas4/bank-app:v1.0.0
           file: ./Dockerfile
+
   Deploy_to_Kubernetes:
     runs-on: self-hosted
     needs: docker_build_push
