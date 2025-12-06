@@ -15,11 +15,6 @@ on:
 jobs:
   docker_build_push:
     runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v4
-
-  docker-build-push:
-    runs-on: self-hosted
     needs: build_project_sonar_scan
     steps:
       - uses: actions/checkout@v4
@@ -51,7 +46,7 @@ jobs:
 
   Deploy_to_Kubernetes:
     runs-on: self-hosted
-    needs: docker-build-push
+    needs: docker_build_push
     steps:
       - uses: actions/checkout@v4
       - name: Set up kubectl
