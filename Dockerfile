@@ -1,15 +1,13 @@
-FROM eclipse-temurin:17-jdk-jammy
-
+FROM eclipse-temurin:17-jdk-alpine
+    
 EXPOSE 8080
 
-# Environment for application 
-ENV APP_HOME=/app
+RUN ls 
 
-# set working directory
+ENV APP_HOME /usr/src/app
+
+COPY app/*.jar $APP_HOME/app.jar
+
 WORKDIR $APP_HOME
 
-# Copy .jar file 
-COPY app/*.jar ./app.jar
-
-# Execute application
 CMD ["java", "-jar", "app.jar"]
