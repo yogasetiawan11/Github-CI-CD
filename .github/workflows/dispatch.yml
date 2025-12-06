@@ -18,11 +18,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download jar artifact from previous run
-        uses: dawidd6/action-download-artifact@v2
+  docker_build_push:
+    runs-on: self-hosted
+    needs: build_project_sonar_scan
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download jar artifact
+        uses: actions/download-artifact@v4
         with:
-          workflow: ${{ github.event.inputs.source_workflow }}
-          run_id: ${{ github.event.inputs.source_run_id }}
           name: app-jar
           path: app
 
