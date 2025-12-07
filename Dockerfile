@@ -4,9 +4,7 @@ EXPOSE 8080
 
 ENV APP_HOME=/usr/src/app
 
-RUN ls
-
-COPY app/bankapp-0.0.1-SNAPSHOT.jar $APP_HOME/app.jar
+COPY /app/bankapp-0.0.1-SNAPSHOT.jar $APP_HOME/app.jar
 
 WORKDIR $APP_HOME
 
