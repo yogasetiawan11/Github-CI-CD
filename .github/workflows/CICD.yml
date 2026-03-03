@@ -69,7 +69,7 @@ jobs:
         run: mvn test
 
   build_project_sonar_scan:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: Test-app
     steps:
       - uses: actions/checkout@v4
@@ -107,7 +107,7 @@ jobs:
           SONAR_PROJECT_KEY: bank-app
  
   docker_build_push:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build_project_sonar_scan
     steps:
       - uses: actions/checkout@v4
@@ -139,7 +139,7 @@ jobs:
           file: ./Dockerfile
 
   Deploy_to_Kubernetes:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: docker_build_push
     steps:
       - uses: actions/checkout@v4
